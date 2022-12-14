@@ -1,6 +1,6 @@
-import { CLIENT_ENTRY_PATH, DEFAULT_TEMPLATE_PATH } from '../constants/index'
-import { Plugin } from 'vite'
-import { readFile } from 'fs/promises'
+import { CLIENT_ENTRY_PATH, DEFAULT_TEMPLATE_PATH } from '../constants/index';
+import { Plugin } from 'vite';
+import { readFile } from 'fs/promises';
 
 export function pluginIndexHtml(): Plugin {
   return {
@@ -21,7 +21,7 @@ export function pluginIndexHtml(): Plugin {
             injectTo: 'body'
           }
         ]
-      }
+      };
     },
 
     configureServer(server) {
@@ -30,19 +30,19 @@ export function pluginIndexHtml(): Plugin {
         server.middlewares.use(async (req, res, next) => {
           // 读取 template.html 的内容
           // 响应html浏览器
-          let content = await readFile(DEFAULT_TEMPLATE_PATH, 'utf-8')
+          let content = await readFile(DEFAULT_TEMPLATE_PATH, 'utf-8');
 
           content = await server.transformIndexHtml(
             req.url,
             content,
             req.originalUrl
-          )
+          );
 
-          res.setHeader('Content-Type', 'text/html')
+          res.setHeader('Content-Type', 'text/html');
 
-          res.end(content)
-        })
-      }
+          res.end(content);
+        });
+      };
     }
-  }
+  };
 }
