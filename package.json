@@ -9,7 +9,9 @@
     "build": "tsup",
     "preview": "cd build && serve",
     "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx ./",
-    "test:unit": "vitest --ui"
+    "test:unit": "vitest --ui",
+    "prepare:e2e": "tsx scripts/prepare-e2e.ts",
+    "test:e2e":"playwright test"
   },
   "bin": {
     "island": "bin/island.js"
@@ -48,10 +50,12 @@
     "eslint": "^8.29.0",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "execa": "5.1.1",
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "rollup": "^3.7.4",
     "tsup": "^6.5.0",
+    "tsx": "^3.12.1",
     "vitest": "^0.25.8"
   }
 }
