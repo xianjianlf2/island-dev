@@ -13,7 +13,8 @@ export async function createDevServer(
   const config = await resolveConfig(root, 'serve', 'development');
 
   return createServer({
-    root,
+    // 绕开 vite 接管文件服务
+    root: PACKAGE_ROOT,
     plugins: [
       pluginIndexHtml(),
       pluginReact(),

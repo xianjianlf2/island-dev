@@ -6,16 +6,22 @@ import { build as viteBuild, InlineConfig } from 'vite';
 import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from './constants';
 import ora from 'ora';
 import { pathToFileURL } from 'url';
+import { SiteConfig } from 'shared/types';
+import { pluginConfig } from './plugin-island/config';
 
 // const dynamicImport = new Function('m', 'return import(m)');
 
-export async function bundle(root: string) {
+export async function bundle(root: string, config: SiteConfig) {
   try {
     const resolveViteConfig = (isServer: boolean): InlineConfig => {
       return {
         mode: 'production',
         root, // 注意加上这个插件，自动注入 import React from 'react'，避免 React is not defined 的错误
-        plugins: [pluginReact()],
+        plugins: [pluginReact(), pluginConfig(config)],
+        // 解决react dom 中esm cjs不兼容的问题
+        ssr: {
+          noExternal: ['react-router-dom']
+        },
         build: {
           ssr: isServer,
           outDir: isServer ? '.temp' : 'build',
@@ -85,9 +91,10 @@ export async function renderPage(
   await fs.remove(join(root, '.temp'));
 }
 
-export async function build(root: string) {
+export async function build(root: string, config: SiteConfig) {
   // bundle - client端 + server端
-  const [clientBundle, serverBundle] = await bundle(root);
+  // config 透传给bundle 实现打包配置
+  const [clientBundle, serverBundle] = await bundle(root, config);
   // 引入server-entry模块
   const serverEntryPath = join(root, '.temp', 'ssr-entry.js');
   // 服务端渲染 产出HTML

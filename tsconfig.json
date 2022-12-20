@@ -2,11 +2,16 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "target": "ESNext",
     "jsx": "react-jsx",
     "esModuleInterop": true,
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "moduleResolution": "node",
+    "paths": {
+      "shared/*": ["shared/*"],
+      "@runtime": ["runtime/index.ts"]
+    }
   },
   "include": ["e2e/**/*.ts", "src/**/*"]
 }
