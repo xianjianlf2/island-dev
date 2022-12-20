@@ -4,6 +4,7 @@ import { resolveConfig } from './config';
 import { PACKAGE_ROOT } from './constants';
 import { pluginConfig } from './plugin-island/config';
 import { pluginIndexHtml } from './plugin-island/indexHtml';
+import { pluginRoutes } from './plugin-routes';
 
 export async function createDevServer(
   root: string,
@@ -18,7 +19,10 @@ export async function createDevServer(
     plugins: [
       pluginIndexHtml(),
       pluginReact(),
-      pluginConfig(config, restartServer)
+      pluginConfig(config, restartServer),
+      pluginRoutes({
+        root: config.root
+      })
     ],
     server: {
       fs: {
