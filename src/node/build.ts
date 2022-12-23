@@ -1,13 +1,12 @@
-import pluginReact from '@vitejs/plugin-react';
 import fs from 'fs-extra';
+import ora from 'ora';
 import { join } from 'path';
 import type { RollupOutput } from 'rollup';
+import { SiteConfig } from 'shared/types';
+import { pathToFileURL } from 'url';
 import { build as viteBuild, InlineConfig } from 'vite';
 import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from './constants';
-import ora from 'ora';
-import { pathToFileURL } from 'url';
-import { SiteConfig } from 'shared/types';
-import { pluginConfig } from './plugin-island/config';
+import { createVitePlugins } from './vitePlugins';
 
 // const dynamicImport = new Function('m', 'return import(m)');
 
@@ -17,7 +16,7 @@ export async function bundle(root: string, config: SiteConfig) {
       return {
         mode: 'production',
         root, // 注意加上这个插件，自动注入 import React from 'react'，避免 React is not defined 的错误
-        plugins: [pluginReact(), pluginConfig(config)],
+        plugins: createVitePlugins(config),
         // 解决react dom 中esm cjs不兼容的问题
         ssr: {
           noExternal: ['react-router-dom']

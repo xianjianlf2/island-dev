@@ -16,13 +16,12 @@ export class RouteService {
 
   async init() {
     const files = fastGlob
-      .sync(['**/*.{js,jsx,ts,tsx,mdx}'], {
+      .sync(['**/*.{js,jsx,ts,tsx,md,mdx}'], {
         cwd: this.#scanDir,
         absolute: true,
-        ignore: ['**/build/**', '**/.island/***', 'config.ts']
+        ignore: ['**/node_modules/**', '**/build/**', 'config.ts']
       })
       .sort();
-
     files.forEach((file) => {
       const fileRelativePath = normalizePath(
         path.relative(this.#scanDir, file)
