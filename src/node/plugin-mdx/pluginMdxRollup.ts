@@ -5,6 +5,7 @@ import remarkPluginFrontmatter from 'remark-frontmatter';
 import remarkGFM from 'remark-gfm';
 import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
 import { Plugin } from 'vite';
+import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
 
 export function pluginMdxRollup() {
   return pluginMdx({
@@ -32,7 +33,8 @@ export function pluginMdxRollup() {
             value: '#'
           }
         }
-      ]
+      ],
+      rehypePluginPreWrapper
     ]
   }) as unknown as Plugin;
 }

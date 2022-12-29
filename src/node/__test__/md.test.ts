@@ -1,3 +1,4 @@
+import { rehypePluginPreWrapper } from './../plugin-mdx/rehypePlugins/preWrapper';
 import { unified } from 'unified';
 import { describe, test, expect } from 'vitest';
 import remarkParse from 'remark-parse';
@@ -9,7 +10,8 @@ describe('Markdown compile cases', () => {
   const processor = unified()
     .use(remarkParse)
     .use(remarkRehype)
-    .use(rehypeStringify);
+    .use(rehypeStringify)
+    .use(rehypePluginPreWrapper);
 
   test('Compile title', async () => {
     const mdContent = '# 123';
@@ -23,5 +25,18 @@ describe('Markdown compile cases', () => {
     expect(result.value).toMatchInlineSnapshot(
       '"<p>I am using <code>Island.js</code></p>"'
     );
+  });
+
+  test('Compile code block', async () => {
+    const mdContent = '```js\nconsole.log(123);\n```';
+    const result = processor.processSync(mdContent);
+    //   <div class="language-js">
+    //   <span class="lang">js</span>
+    //   <pre><code class="language-js">console.log(123)</code></pre>
+    // </div>
+    expect(result.value).toMatchInlineSnapshot(`
+      "<div class=\\"language-js\\"><span class=\\"lang\\">js</span><pre><code class=\\"\\">console.log(123);
+      </code></pre></div>"
+    `);
   });
 });
