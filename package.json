@@ -9,7 +9,7 @@
     "build": "tsup",
     "preview": "cd build && serve",
     "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx ./",
-    "test:unit": "vitest --ui",
+    "test:unit": "vitest",
     "prepare:e2e": "tsx scripts/prepare-e2e.ts",
     "test:e2e": "playwright test"
   },
@@ -33,6 +33,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "fast-glob": "^3.2.12",
     "fs-extra": "^11.1.0",
+    "hast-util-from-html": "^1.0.0",
     "ora": "^6.1.2",
     "prettier": "^2.8.1",
     "react": "^18.2.0",
@@ -46,6 +47,7 @@
     "remark-mdx-frontmatter": "^2.1.1",
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
+    "shiki": "^0.12.1",
     "typescript": "^4.9.4",
     "unified": "^10.1.2",
     "vite": "^4.0.1"

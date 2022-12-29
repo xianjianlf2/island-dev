@@ -13,7 +13,7 @@ export async function createDevServer(
   return createServer({
     // 绕开 vite 接管文件服务
     root: PACKAGE_ROOT,
-    plugins: createVitePlugins(config, restartServer),
+    plugins: await createVitePlugins(config, restartServer),
     server: {
       fs: {
         allow: [PACKAGE_ROOT]

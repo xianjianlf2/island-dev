@@ -12,11 +12,13 @@ import { createVitePlugins } from './vitePlugins';
 
 export async function bundle(root: string, config: SiteConfig) {
   try {
-    const resolveViteConfig = (isServer: boolean): InlineConfig => {
+    const resolveViteConfig = async (
+      isServer: boolean
+    ): Promise<InlineConfig> => {
       return {
         mode: 'production',
         root, // 注意加上这个插件，自动注入 import React from 'react'，避免 React is not defined 的错误
-        plugins: createVitePlugins(config),
+        plugins: await createVitePlugins(config),
         // 解决react dom 中esm cjs不兼容的问题
         ssr: {
           noExternal: ['react-router-dom']
@@ -35,11 +37,11 @@ export async function bundle(root: string, config: SiteConfig) {
     };
 
     const clientBuild = async () => {
-      return viteBuild(resolveViteConfig(false));
+      return viteBuild(await resolveViteConfig(false));
     };
 
     const serverBuild = async () => {
-      return viteBuild(resolveViteConfig(true));
+      return viteBuild(await resolveViteConfig(true));
     };
     // const spinner = ora()
     // tsc 编译一直是required

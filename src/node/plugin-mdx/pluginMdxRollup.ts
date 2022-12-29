@@ -6,8 +6,10 @@ import remarkGFM from 'remark-gfm';
 import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
 import { Plugin } from 'vite';
 import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
+import shiki from 'shiki';
+import { rehypePluginShiki } from './rehypePlugins/shiki';
 
-export function pluginMdxRollup() {
+export async function pluginMdxRollup(): Promise<Plugin> {
   return pluginMdx({
     remarkPlugins: [
       // 自动转化
@@ -34,7 +36,15 @@ export function pluginMdxRollup() {
           }
         }
       ],
-      rehypePluginPreWrapper
+      rehypePluginPreWrapper,
+      [
+        rehypePluginShiki,
+        {
+          highlighter: await shiki.getHighlighter({
+            theme: 'nord'
+          })
+        }
+      ]
     ]
   }) as unknown as Plugin;
 }

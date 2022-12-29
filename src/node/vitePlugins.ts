@@ -6,7 +6,7 @@ import { SiteConfig } from 'shared/types';
 import { createPluginMdx } from './plugin-mdx';
 import { Plugin } from 'vite';
 
-export function createVitePlugins(
+export async function createVitePlugins(
   config: SiteConfig,
   restartServer?: () => Promise<void>
 ) {
@@ -19,6 +19,6 @@ export function createVitePlugins(
     pluginRoutes({
       root: config.root
     }),
-    createPluginMdx()
+    await createPluginMdx()
   ] as Plugin[];
 }
