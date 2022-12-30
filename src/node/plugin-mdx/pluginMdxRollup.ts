@@ -4,10 +4,11 @@ import rehypePluginSlug from 'rehype-slug';
 import remarkPluginFrontmatter from 'remark-frontmatter';
 import remarkGFM from 'remark-gfm';
 import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
+import shiki from 'shiki';
 import { Plugin } from 'vite';
 import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
-import shiki from 'shiki';
 import { rehypePluginShiki } from './rehypePlugins/shiki';
+import { remarkPluginToc } from './remarkPlugins/toc';
 
 export async function pluginMdxRollup(): Promise<Plugin> {
   return pluginMdx({
@@ -20,7 +21,8 @@ export async function pluginMdxRollup(): Promise<Plugin> {
         {
           name: 'frontmatter'
         }
-      ]
+      ],
+      remarkPluginToc
     ],
     rehypePlugins: [
       rehypePluginSlug,
