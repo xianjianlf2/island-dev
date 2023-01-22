@@ -35,8 +35,9 @@ describe('RouteService', async () => {
   });
 
   test('Generate routes code', async () => {
-    expect(routeService.generateRoutesCode().replaceAll(testDir, 'TEST_DIR'))
-      .toMatchInlineSnapshot(`
+    expect(
+      routeService.generateRoutesCode(false).replaceAll(testDir, 'TEST_DIR')
+    ).toMatchInlineSnapshot(`
       "
           import React from 'react';
           import loadable from '@loadable/component';

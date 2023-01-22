@@ -1,4 +1,4 @@
-import { CLIENT_ENTRY_PATH, DEFAULT_TEMPLATE_PATH } from '../constants/index';
+import { CLIENT_ENTRY_PATH, DEFAULT_HTML_PATH } from '../constants';
 import { Plugin } from 'vite';
 import { readFile } from 'fs/promises';
 
@@ -30,7 +30,7 @@ export function pluginIndexHtml(): Plugin {
         server.middlewares.use(async (req, res, next) => {
           // 读取 template.html 的内容
           // 响应html浏览器
-          let content = await readFile(DEFAULT_TEMPLATE_PATH, 'utf-8');
+          let content = await readFile(DEFAULT_HTML_PATH, 'utf-8');
 
           content = await server.transformIndexHtml(
             req.url,
