@@ -2,6 +2,7 @@ import { PACKAGE_ROOT } from './../constants/index';
 import { join, relative } from 'path';
 import { SiteConfig } from 'shared/types/index';
 import { Plugin, normalizePath } from 'vite';
+import sirv from 'sirv';
 
 // 虚拟模块
 const SITE_DATA_ID = 'island:site-data';
@@ -25,10 +26,16 @@ export function pluginConfig(
     },
     config() {
       return {
+        root: PACKAGE_ROOT,
         resolve: {
           alias: {
             // 别名
             '@runtime': join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts')
+          }
+        },
+        css: {
+          modules: {
+            localsConvention: 'camelCaseOnly'
           }
         }
       };
@@ -59,6 +66,11 @@ export function pluginConfig(
       // 1.插件内置重启vite中的 dev server
       // 不起作用，没有进行Island框架配置的重新读取
       // await server.restart();
+    },
+    configureServer(server) {
+      const publicDir = join(config.root, 'public');
+      console.log(publicDir);
+      server.middlewares.use(sirv(publicDir));
     }
   };
 }
