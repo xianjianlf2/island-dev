@@ -22,7 +22,7 @@ export async function bundle(root: string, config: SiteConfig) {
         plugins: await createVitePlugins(config, undefined, isServer),
         // 解决react dom 中esm cjs不兼容的问题
         ssr: {
-          noExternal: ['react-router-dom']
+          noExternal: ['react-router-dom', 'lodash-es']
         },
         build: {
           ssr: isServer,
@@ -81,7 +81,7 @@ export async function renderPage(
   await Promise.all(
     routes.map(async (route) => {
       const routePath = route.path;
-      const appHtml = render(routePath);
+      const appHtml = await render(routePath);
       const html = `
       <!DOCTYPE html>
       <html>
